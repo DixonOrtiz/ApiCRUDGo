@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-
-	_ "github.com/lib/pq"
 )
 
 // ConnectionCredentials struct that defines the database connection credentials from environment variables
@@ -16,6 +14,31 @@ type ConnectionCredentials struct {
 	HOSTDB     string
 	PORTDB     string
 	DBNAME     string
+}
+
+//ValidateCredentials method
+//Method that verifies that the credentials are not empty
+func (cc ConnectionCredentials) ValidateCredentials() {
+	if cc.USERDB == "" {
+		fmt.Println("[Rap API][Error] The environment variable USERDB is undefined.")
+		os.Exit(1)
+	}
+	if cc.PASSWORDDB == "" {
+		fmt.Println("[Rap API][Error] The environment variable PASSWORDDB is undefined.")
+		os.Exit(1)
+	}
+	if cc.HOSTDB == "" {
+		fmt.Println("[Rap API][Error] The environment variable HOSTDB is undefined.")
+		os.Exit(1)
+	}
+	if cc.PORTDB == "" {
+		fmt.Println("[Rap API][Error] The environment variable PORTDB is undefined.")
+		os.Exit(1)
+	}
+	if cc.DBNAME == "" {
+		fmt.Println("[Rap API][Error] The environment variable DBNAME is undefined.")
+		os.Exit(1)
+	}
 }
 
 //GetConnection function
@@ -29,7 +52,9 @@ func GetConnection() *sql.DB {
 		DBNAME:     os.Getenv("DBNAME"),
 	}
 
-	dsn := fmt.Sprintf(
+	cc.ValidateCredentials()
+
+	ccString := fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		cc.USERDB,
 		cc.PASSWORDDB,
@@ -38,7 +63,7 @@ func GetConnection() *sql.DB {
 		cc.DBNAME,
 	)
 
-	db, err := sql.Open("postgres", dsn)
+	db, err := sql.Open("postgres", ccString)
 	if err != nil {
 		log.Fatal(err)
 	}
