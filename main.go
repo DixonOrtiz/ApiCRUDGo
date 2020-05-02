@@ -1,19 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
 
+	"github.com/DixonOrtiz/ApiRap/api"
+)
+
+//El paquete main debe importar el paquete api y ejecutar la funcion que corre todo
 func main() {
-	r1 := Raper{
-		Name:    "Dixon",
-		Country: "Chile",
-		Age:     23,
-	}
-
-	i, err := CreateRaper(r1)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println("Filas afectadas:", i)
-
+	fmt.Println("Corriendo en el puerto 8000")
+	api.Run()
 }

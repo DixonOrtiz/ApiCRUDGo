@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"database/sql"
@@ -18,7 +18,9 @@ type ConnectionCredentials struct {
 	DBNAME     string
 }
 
-func getConnection() *sql.DB {
+//GetConnection function
+//Function that allows to coneect to a postgres database
+func GetConnection() *sql.DB {
 	cc := ConnectionCredentials{
 		USERDB:     os.Getenv("USERDB"),
 		PASSWORDDB: os.Getenv("PASSWORDDB"),

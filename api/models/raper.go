@@ -1,8 +1,12 @@
-package main
+package models
 
-import "errors"
+import (
+	"errors"
 
-// Raper estructura
+	"github.com/DixonOrtiz/ApiRap/database"
+)
+
+//Raper structure, adapted from the database model
 type Raper struct {
 	ID      int
 	Name    string
@@ -10,13 +14,14 @@ type Raper struct {
 	Age     int
 }
 
-// Create
+//CreateRaper function
+//Function that introduce a new 'raper' in the database
 func CreateRaper(r Raper) (int64, error) {
 	q := `INSERT INTO 
 			rapers(name, country, age) 
 			VALUES($1, $2, $3);`
 
-	db := getConnection()
+	db := database.GetConnection()
 	defer db.Close()
 
 	stmt, err := db.Prepare(q)
@@ -32,7 +37,7 @@ func CreateRaper(r Raper) (int64, error) {
 
 	i, _ := res.RowsAffected()
 	if i != 1 {
-		return i, errors.New("error: Se esperaba 1 fila afectada")
+		return i, errors.New("error: an affected row was expected")
 	}
 
 	return i, nil
