@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/DixonOrtiz/ApiRap/database"
 	_ "github.com/lib/pq"
@@ -9,16 +10,16 @@ import (
 
 //Raper structure, adapted from the database model
 type Raper struct {
-	ID      int
-	Name    string
-	Country string
-	Age     int
+	ID      int    `json:"id"`
+	Name    string `json:"name"`
+	Country string `json:"country"`
+	Age     int    `json:"age"`
 }
 
-//GetRapersfunction
+//GetRapers function
 //Function that show the rapers in the database
 func GetRapers() ([]Raper, error) {
-	query := `SELECT id, name, country, age FROM rapers;`
+	query := "SELECT id, name, country, age FROM rapers;"
 	var rapers []Raper
 
 	db := database.GetConnection()
@@ -41,6 +42,32 @@ func GetRapers() ([]Raper, error) {
 	}
 
 	return rapers, nil
+}
+
+//GetRaperByID function
+//Function that get a raper from by ID from the database
+func GetRaperByID(id int) (Raper, error) {
+	query := fmt.Sprintf("SELECT id, name, country, age FROM rapers WHERE id = %d;", id)
+	r := Raper{}
+
+	db := database.GetConnection()
+	defer db.Close()
+
+	rows, err := db.Query(query)
+	if err != nil {
+		return r, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		err = rows.Scan(&r.ID, &r.Name, &r.Country, &r.Age)
+		if err != nil {
+			return r, err
+		}
+	}
+
+	return r, nil
+
 }
 
 //CreateRaper function
