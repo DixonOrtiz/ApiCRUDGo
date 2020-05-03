@@ -58,14 +58,14 @@ func CreateRaper(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
-	affectedRows, err := models.CreateRaper(raper)
+	rowsAffected, err := models.CreateRaper(raper)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	fmt.Println("Raper created:", raper)
 
-	responseString := fmt.Sprintf("Affected rows: %d", affectedRows)
+	responseString := fmt.Sprintf("Affected rows: %d", rowsAffected)
 	responses.JSON(w, http.StatusCreated, responseString)
 }
 
@@ -86,13 +86,39 @@ func UpdateRaper(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
-	affectedRows, err := models.UpdateRaper(raper)
+	rowsAffected, err := models.UpdateRaper(raper)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	fmt.Println("Raper updated:", raper)
 
-	responseString := fmt.Sprintf("Affected rows: %d", affectedRows)
+	responseString := fmt.Sprintf("Affected rows: %d", rowsAffected)
+	responses.JSON(w, http.StatusCreated, responseString)
+}
+
+//DeleteRaper controller
+//Function that allows to delete a register in teh database
+func DeleteRaper(w http.ResponseWriter, r *http.Request) {
+	idString := mux.Vars(r)["id"]
+	fmt.Printf("[Rap API][DELETE][RAPER][/raper/delete/{%s}]\n", idString)
+
+	idInt, err := strconv.Atoi(idString)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	raper, err := models.GetRaperByID(idInt)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	rowsAffected, err := models.DeleteRaper(idInt)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("Raper deleted:", raper)
+	responseString := fmt.Sprintf("Affected rows: %d", rowsAffected)
 	responses.JSON(w, http.StatusCreated, responseString)
 }

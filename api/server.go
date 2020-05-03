@@ -16,6 +16,7 @@ func Run() {
 	router.HandleFunc("/raper/get/{id}", controllers.GetRaperByID).Methods("GET")
 	router.HandleFunc("/raper/create", controllers.CreateRaper).Methods("POST")
 	router.HandleFunc("/raper/update", controllers.UpdateRaper).Methods("PUT")
+	router.HandleFunc("/raper/delete/{id}", controllers.DeleteRaper).Methods("DELETE")
 
 	http.ListenAndServe(":8000", router)
 
