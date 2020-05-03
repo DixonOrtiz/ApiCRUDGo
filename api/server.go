@@ -12,7 +12,6 @@ import (
 func Run() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/", controllers.HomeHandler).Methods("GET")
 	router.HandleFunc("/raper/get", controllers.GetRapers).Methods("GET")
 	router.HandleFunc("/raper/get/{id}", controllers.GetRaperByID).Methods("GET")
 	router.HandleFunc("/raper/create", controllers.CreateRaper).Methods("POST")
