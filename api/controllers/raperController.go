@@ -38,8 +38,6 @@ func GetRaperByID(w http.ResponseWriter, r *http.Request) {
 
 	raper, err := models.GetRaperByID(idInt)
 
-	fmt.Println("Result:", raper)
-
 	responses.JSON(w, http.StatusOK, raper)
 }
 
