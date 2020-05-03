@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/DixonOrtiz/ApiRap/database"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" //Driver to use postgres db
 )
 
 //Raper structure, adapted from the database model
@@ -87,6 +87,38 @@ func CreateRaper(r Raper) (int64, error) {
 	defer stmt.Close()
 
 	res, err := stmt.Exec(r.Name, r.Country, r.Age)
+	if err != nil {
+		return 0, err
+	}
+
+	i, _ := res.RowsAffected()
+	if i != 1 {
+		return i, errors.New("error: an affected row was expected")
+	}
+
+	return i, nil
+}
+
+//UpdateRaper function
+//Function that allows to update a raper data
+func UpdateRaper(r Raper) (int64, error) {
+	query := fmt.Sprintf(`UPDATE rapers 
+							SET name = $1, 
+								country = $2, 
+								age = $3 
+							WHERE id = $4;`,
+	)
+
+	db := database.GetConnection()
+	defer db.Close()
+
+	stmt, err := db.Prepare(query)
+	if err != nil {
+		return 0, err
+	}
+	defer stmt.Close()
+
+	res, err := stmt.Exec(r.Name, r.Country, r.Age, r.ID)
 	if err != nil {
 		return 0, err
 	}

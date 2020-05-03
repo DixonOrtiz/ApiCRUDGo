@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//GetRapers function
+//GetRapers controller
 //Function that handles the "/raper/get" endpoint
 func GetRapers(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("[Rap API][GET][RAPER][/raper/get]")
@@ -25,7 +25,7 @@ func GetRapers(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, rapers)
 }
 
-//GetRaperByID function
+//GetRaperByID controller
 //Function that handles the "/raper/get/{id}" endpoint
 func GetRaperByID(w http.ResponseWriter, r *http.Request) {
 	idString := mux.Vars(r)["id"]
@@ -41,7 +41,7 @@ func GetRaperByID(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, raper)
 }
 
-//CreateRaper function
+//CreateRaper controller
 //Function that handles the "/raper/create" endpoint
 func CreateRaper(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("[Rap API][POST][RAPER][/raper/create]")
@@ -60,10 +60,38 @@ func CreateRaper(w http.ResponseWriter, r *http.Request) {
 
 	affectedRows, err := models.CreateRaper(raper)
 	if err != nil {
-		fmt.Println(nil)
+		fmt.Println(err)
 	}
 
 	fmt.Println("Raper created:", raper)
+
+	responseString := fmt.Sprintf("Affected rows: %d", affectedRows)
+	responses.JSON(w, http.StatusCreated, responseString)
+}
+
+//UpdateRaper controller
+//Function that allows to update a raper in the database
+func UpdateRaper(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[Rap API][PUT][RAPER][/raper/update]")
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	raper := models.Raper{}
+
+	err = json.Unmarshal(body, &raper)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	affectedRows, err := models.UpdateRaper(raper)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("Raper updated:", raper)
 
 	responseString := fmt.Sprintf("Affected rows: %d", affectedRows)
 	responses.JSON(w, http.StatusCreated, responseString)
