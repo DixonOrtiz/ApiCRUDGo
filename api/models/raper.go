@@ -6,14 +6,26 @@ import (
 
 	"github.com/DixonOrtiz/ApiRap/database"
 	_ "github.com/lib/pq" //Driver to use postgres db
+	"gopkg.in/go-playground/validator.v9"
 )
 
 //Raper structure, adapted from the database model
 type Raper struct {
-	ID      int    `json:"id"`
-	Name    string `json:"name"`
-	Country string `json:"country"`
-	Age     int    `json:"age"`
+	ID      int    `json:"id" validate:"omitempty"`
+	Name    string `json:"name" validate:"required"`
+	Country string `json:"country" validate:"required"`
+	Age     int    `json:"age" validate:"required,gte=10"`
+}
+
+//RaperValidation function
+//Function that validate the input data
+func RaperValidation(r Raper) error {
+	validate := validator.New()
+	err := validate.Struct(r)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 //GetRapers function
@@ -44,7 +56,7 @@ func GetRapers() ([]Raper, error) {
 	return rapers, nil
 }
 
-//GetRaperByID function
+//GetRaperByID functionClose
 //Function that get a raper from by ID from the database
 func GetRaperByID(id int) (Raper, error) {
 	query := fmt.Sprintf("SELECT id, name, country, age FROM rapers WHERE id = %d;", id)

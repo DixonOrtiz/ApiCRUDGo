@@ -58,6 +58,13 @@ func CreateRaper(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
+	err = models.RaperValidation(raper)
+	if err != nil {
+		responseString := fmt.Sprintf("error: invalidad request format")
+		responses.JSON(w, http.StatusBadRequest, responseString)
+		return
+	}
+
 	rowsAffected, err := models.CreateRaper(raper)
 	if err != nil {
 		fmt.Println(err)
@@ -84,6 +91,13 @@ func UpdateRaper(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, &raper)
 	if err != nil {
 		fmt.Println(err)
+	}
+
+	err = models.RaperValidation(raper)
+	if err != nil {
+		responseString := fmt.Sprintf("error: invalidad request format")
+		responses.JSON(w, http.StatusBadRequest, responseString)
+		return
 	}
 
 	rowsAffected, err := models.UpdateRaper(raper)
