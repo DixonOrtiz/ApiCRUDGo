@@ -12,6 +12,9 @@ import (
 func Run() {
 	router := mux.NewRouter()
 
+	router.HandleFunc("/login", controllers.HandleGoogleLogin)
+	router.HandleFunc("/callback", controllers.HandleGoogleCallback)
+
 	router.HandleFunc("/raper/get", controllers.GetRapers).Methods("GET")              //debería pedir autenticación lector
 	router.HandleFunc("/raper/get/{id}", controllers.GetRaperByID).Methods("GET")      //debería pedir autenticación lector
 	router.HandleFunc("/raper/create", controllers.CreateRaper).Methods("POST")        //debería pedir autenticación de administrador

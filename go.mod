@@ -8,5 +8,6 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/lib/pq v1.4.0
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	gopkg.in/go-playground/validator.v9 v9.31.0
 )
