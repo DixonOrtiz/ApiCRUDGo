@@ -3,6 +3,7 @@ module github.com/DixonOrtiz/ApiRap
 go 1.14
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/gorilla/mux v1.7.4
 	github.com/joho/godotenv v1.3.0

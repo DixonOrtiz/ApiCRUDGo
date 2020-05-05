@@ -9,6 +9,8 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
+//GoogleOauthConfig and OauthStateString variables
+//Variables that allows to work with OAuth2
 var (
 	GoogleOauthConfig *oauth2.Config
 	OauthStateString  = "pseudo-random"
