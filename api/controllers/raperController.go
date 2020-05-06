@@ -22,6 +22,7 @@ func GetRapers(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
+	fmt.Println("[Rap API][GET][RAPER][/raper/get][PASSED]")
 	responses.JSON(w, http.StatusOK, rapers)
 }
 
@@ -38,6 +39,8 @@ func GetRaperByID(w http.ResponseWriter, r *http.Request) {
 
 	raper, err := models.GetRaperByID(idInt)
 
+	fmt.Printf("[Rap API][GET][RAPER][/raper/get/{%s}][PASSED]", idString)
+	fmt.Println("[RAPERGET]:", raper)
 	responses.JSON(w, http.StatusOK, raper)
 }
 
@@ -73,6 +76,8 @@ func CreateRaper(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Raper created:", raper)
 
 	responseString := fmt.Sprintf("Affected rows: %d", rowsAffected)
+	fmt.Print("[Rap API][POST][RAPER][/raper/post}][PASSED]")
+	fmt.Println("[RAPERPOST]:", raper)
 	responses.JSON(w, http.StatusCreated, responseString)
 }
 
@@ -95,7 +100,7 @@ func UpdateRaper(w http.ResponseWriter, r *http.Request) {
 
 	err = models.RaperValidation(raper)
 	if err != nil {
-		responseString := fmt.Sprintf("error: invalidad request format")
+		responseString := fmt.Sprintf("error: invalid request format")
 		responses.JSON(w, http.StatusBadRequest, responseString)
 		return
 	}
@@ -105,9 +110,10 @@ func UpdateRaper(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
-	fmt.Println("Raper updated:", raper)
-
 	responseString := fmt.Sprintf("Affected rows: %d", rowsAffected)
+
+	fmt.Print("[Rap API][PUT][RAPER][/raper/update][PASSED]")
+	fmt.Println("[RAPERPUT]:", raper)
 	responses.JSON(w, http.StatusCreated, responseString)
 }
 
@@ -134,5 +140,8 @@ func DeleteRaper(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Raper deleted:", raper)
 	responseString := fmt.Sprintf("Affected rows: %d", rowsAffected)
+
+	fmt.Printf("[Rap API][DELETE][RAPER][/raper/delete/{%s}][PASSED]", idString)
+	fmt.Println("[RAPERDELETE]:", raper)
 	responses.JSON(w, http.StatusCreated, responseString)
 }

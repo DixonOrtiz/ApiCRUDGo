@@ -14,12 +14,14 @@ import (
 func SetMiddlewareAuthentication(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("[Rap API][MIDDLEWARE][RAPER][SetMiddlewareAuthentication]")
-		fmt.Println(auth.ExtractToken(r))
-		err := auth.TokenValid(r)
+
+		err := auth.TokenValidRequest(r)
+
 		if err != nil {
 			responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 			return
 		}
+		fmt.Println("[Rap API][MIDDLEWARE][RAPER][SetMiddlewareAuthentication][PASSED]")
 		next(w, r)
 	}
 }

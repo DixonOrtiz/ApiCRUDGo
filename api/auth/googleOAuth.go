@@ -37,8 +37,6 @@ func GetUserInfo(state string, code string) ([]byte, error) {
 		return nil, fmt.Errorf("code exchange failed: %s", err.Error())
 	}
 
-	fmt.Println(token.AccessToken)
-
 	response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
 	if err != nil {
 		return nil, fmt.Errorf("failed getting user info: %s", err.Error())
