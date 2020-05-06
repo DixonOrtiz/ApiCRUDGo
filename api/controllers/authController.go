@@ -24,8 +24,8 @@ func HandleGoogleLogin(w http.ResponseWriter, r *http.Request) {
 
 	url := auth.GoogleOauthConfig.AuthCodeURL(auth.OauthStateString)
 
-	fmt.Println("[Rap API][GET][AUTH][/login][PASSED]")
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
+	fmt.Println("[Rap API][GET][AUTH][/login][PASSED]")
 }
 
 //HandleGoogleCallback controller
