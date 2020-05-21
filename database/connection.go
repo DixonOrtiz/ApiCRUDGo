@@ -45,11 +45,11 @@ func (cc ConnectionCredentials) ValidateCredentials() {
 //Function that allows to coneect to a postgres database
 func GetConnection() *sql.DB {
 	cc := ConnectionCredentials{
-		USERDB:     os.Getenv("USERDB"),
-		PASSWORDDB: os.Getenv("PASSWORDDB"),
-		HOSTDB:     os.Getenv("HOSTDB"),
-		PORTDB:     os.Getenv("PORTDB"),
-		DBNAME:     os.Getenv("DBNAME"),
+		USERDB:     "admin_rap",
+		PASSWORDDB: "septimojinete",
+		HOSTDB:     "127.0.0.1",
+		PORTDB:     "5432",
+		DBNAME:     "db_rap",
 	}
 
 	cc.ValidateCredentials()

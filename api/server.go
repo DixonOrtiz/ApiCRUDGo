@@ -25,7 +25,7 @@ func Run() {
 	router.HandleFunc("/raper/update", middlewares.SetMiddlewareAuthentication(controllers.UpdateRaper)).Methods("PUT")         //debería pedir autenticación de administrador
 	router.HandleFunc("/raper/delete/{id}", middlewares.SetMiddlewareAuthentication(controllers.DeleteRaper)).Methods("DELETE") //debería pedir autenticación de administrador
 
-	fmt.Println("Corriendo en el puerto 8000")
-	http.ListenAndServe(":8000", router)
+	fmt.Println("Corriendo en el puerto 8080 (DOCKER CONTAINER)")
+	http.ListenAndServe(":8080", router)
 
 }
